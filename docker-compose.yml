@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  django:
+    build:
+      context: ./fleeticket-server  # Path to the directory containing your Django Dockerfile
+    ports:
+      - "8000:8000"  # Expose Django's port
+    volumes:
+      - ./fleeticket-server:/home/app/webapp  # Mount the Django app directory
+
+  react:
+    build:
+      context: ./fleeticket-client  # Path to the directory containing your React Dockerfile
+    ports:
+      - "3000:3000"  # Expose React's port
+    volumes:
+      - ./fleeticket-client:/app  # Mount the React app directory
+
+    # If your React app depends on the Django API, you can specify a dependency on the Django service
+    depends_on:
+      - django
+
